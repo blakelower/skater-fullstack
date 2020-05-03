@@ -1,17 +1,21 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const apiRouter = require('../router/userRouter');
+
+const authRouter = require('../auth/auth-router.js');
+const usersRouter = require('../users/user-router');
+
 const server = express();
 
-server.use(express.json());
 server.use(helmet());
+server.use(express.json());
 server.use(cors());
 
-server.get('/', (req,res) => {
-    res.send(`<h1>Running..</h1>`)
-})
+server.use('/api/auth', authRouter);
+server.use('/api/users', usersRouter);
 
-server.use('/api', apiRouter);
+server.get('/', (req, res) => {
+  res.send("It's alive!");
+});
 
 module.exports = server;
